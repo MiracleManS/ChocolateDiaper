@@ -21,12 +21,15 @@ $(document).ready(function()
   
   var old = localStorage.getItem('items');
   //alert(old);
-  var spl = old.split('|');
-  
-  $.each(spl, function()
+  if(old != null)
   {
-    $('' + this + '').hide();
-  });
+	  var spl = old.split('|');
+	  
+	  $.each(spl, function()
+	  {
+		$('' + this + '').hide();
+	  });
+  }
 
   
   //GM_log(items);
