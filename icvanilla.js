@@ -4,7 +4,7 @@
 // @description Hides a thread in Icrontic, yo
 // @include     http://icrontic.com/*
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js
-// @version     1.1
+// @version     1.2
 // @downloadURL https://raw.githubusercontent.com/MiracleManS/ICVanilla/master/icvanilla.js
 // @updateURL https://raw.githubusercontent.com/MiracleManS/ICVanilla/master/icvanilla.js
 // @grant       none
@@ -49,9 +49,42 @@ $(document).ready(function()
     this.appendChild(ele);
   });
   
+    var listu = $(".Username");
+  $.each(listu, function()
+  {
+    var eleu = document.createElement("a");
+    eleu.style.color = 'red';
+    eleu.href='#';
+    eleu.appendChild(document.createTextNode('Mute'));
+    eleu.onclick = hideUser;
+    
+    $(this).closest('.Author').after(eleu);
+  });
+    
+  var oldUsers = localStorage.getItem('users');
+  if(oldUsers !== null)
+  {
+     var sp = oldUsers.split('|');
+      $.each(sp, function()
+      {   
+          
+          $('a[title=' + this + ']').closest('.ItemComment').hide();
+      });
+  }
   
 });
 
+function hideUser()
+  {
+    var user = $(this).closest('.AuthorWrap').find('.Author').find('.PhotoWrap').attr('title');
+    $(this).closest('.ItemComment').hide();
+    var oldvals = localStorage.getItem('users');
+    
+    var newvals = oldvals + "|" + user;
+    
+    localStorage.setItem('users', newvals);
+  }
+      
 function hideThread()
   {
     var thread = $(this).closest('.ItemDiscussion').hide();
