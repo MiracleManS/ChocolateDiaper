@@ -4,7 +4,7 @@
 // @description Hides a thread in Icrontic, yo
 // @include     http://icrontic.com/*
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js
-// @version     1.01
+// @version     1.02
 // @downloadURL https://raw.githubusercontent.com/MiracleManS/ICVanilla/master/icvanilla.js
 // @updateURL https://raw.githubusercontent.com/MiracleManS/ICVanilla/master/icvanilla.js
 // @grant       none
@@ -12,6 +12,7 @@
 
 this.$ = this.jQuery = jQuery.noConflict(true);
 
+//just an update test
 $(document).ready(function()
 {
   var eles = document.createElement("a");
