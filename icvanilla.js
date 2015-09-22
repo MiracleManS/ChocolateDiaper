@@ -4,7 +4,7 @@
 // @description Hides a thread in Icrontic, yo
 // @include     http://icrontic.com/*
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js
-// @version     1.02
+// @version     1.1
 // @downloadURL https://raw.githubusercontent.com/MiracleManS/ICVanilla/master/icvanilla.js
 // @updateURL https://raw.githubusercontent.com/MiracleManS/ICVanilla/master/icvanilla.js
 // @grant       none
@@ -17,10 +17,11 @@ $(document).ready(function()
 {
   var eles = document.createElement("a");
     eles.href='#';
+    eles.id = 'showhid';
     eles.appendChild(document.createTextNode('Show hidden threads'));
-    eles.onclick = showItems();
+    eles.onclick = showItems;
   
-  //$('H HomepageTitle').append
+  $('.HomepageTitle').after(eles);
   
   var old = localStorage.getItem('items');
   //alert(old);
@@ -61,10 +62,35 @@ function hideThread()
     
     localStorage.setItem('items', newvals);
   }
+  
+  function unHideThread()
+  {
+      
+    var thread = $(this).closest('.ItemDiscussion');
+    thread.css('background-color', 'transparent');
+    var oldvals = localStorage.getItem('items').replace('|#' + thread.attr('id'), '');
+    $(this).hide();
+    localStorage.setItem('items', oldvals);
+  }
 
 function showItems()
 {
-  
+  $('#showhid').hide();
+  var old = localStorage.getItem('items');
+  //alert(old);
+  if(old != null)
+  {
+	  var spl = old.split('|');
+	  
+	  $.each(spl, function()
+	  {
+		var ele = document.createElement("a");
+		ele.href='#';
+		ele.appendChild(document.createTextNode('Unhide'));
+		ele.onclick = unHideThread;
+          $('' + this + '').show().css('background-color', '#c0f2ff').append(ele);
+	  });
+  }
 }
 
   
