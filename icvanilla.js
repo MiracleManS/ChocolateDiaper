@@ -4,7 +4,7 @@
 // @description Hides a thread in Icrontic, yo
 // @include     http://icrontic.com/*
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js
-// @version     1.2
+// @version     1.3
 // @downloadURL https://raw.githubusercontent.com/MiracleManS/ChocolateDiaper/master/icvanilla.js
 // @updateURL https://raw.githubusercontent.com/MiracleManS/ChocolateDiaper/master/icvanilla.js
 // @grant       none
