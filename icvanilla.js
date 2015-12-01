@@ -15,7 +15,7 @@ this.$ = this.jQuery = jQuery.noConflict(true);
 //just an update test
 $(document).ready(function()
 {
-  $('.Breadcrumbs').prepend('<span class="CrumbLabel" id="showChocolateSettings"><a href="#">ChocolateDiaper</a></div>')
+  $('.Breadcrumbs').prepend('<span class="CrumbLabel" id="showChocolateSettings"><a href="#">ChocolateDiaper</a></div>');
 
   //GM_log(items);
 
@@ -58,6 +58,8 @@ $(document).ready(function()
     createUI();
   });
 
+  hideThreads();
+
 });
 
 function createUI()
@@ -95,31 +97,31 @@ function createUI()
 
       var hidThreads = localStorage.getItem('items').split('|');
       var ul = document.createElement('ul');
-
-      $.each(hidThreads, function()
+      if(hidThreads != null)
       {
-        var li = document.createElement('li');
+        $.each(hidThreads, function()
+        {
+          if(this !== '' && this !== null && this != 'null')
+          {
+            var li = document.createElement('li');
+            var lbltxt = $(this + " .Title a").text();
+            var label = document.createElement('label');
+            label.htmlFor = this;
+            label.appendChild(document.createTextNode(lbltxt));
 
-        var label = document.createElement('label');
-        label.htmlFor = this;
-        label.appendChild(document.createTextNode(this));
+            var rm = document.createElement('a');
+            rm.href='#';
+            rm.title = this;
+            rm.appendChild(document.createTextNode('remove'));
+            rm.onclick = removeThread;
 
-        var rm = document.createElement('a');
-        rm.href='#';
-        rm.title = this;
-        rm.appendChild(document.createTextNode('remove'));
-        rm.onclick = removeThread;
+            li.appendChild(label);
+            li.appendChild(rm);
+            ul.appendChild(li);
+          }
 
-        li.appendChild(label);
-        li.appendChild(rm);
-        ul.appendChild(li);
-
-      });
-
-
-
-
-
+        });
+      }
       panel.appendChild(ul);
       $('body').append(panel);
 
@@ -133,20 +135,22 @@ function clearUI()
 function removeThread()
 {
   var hidThreads = localStorage.getItem('items');
-  var newvals = hidThreads.replace(this.title, '');
-  if(newvals.charAt(0) === '|')
+  if(hidThreads !== null)
   {
-    newvals = newvals.substr(1);
+    var newvals = hidThreads.replace(this.title, '');
+    if(newvals.charAt(0) === '|')
+    {
+      newvals = newvals.substr(1);
+    }
+
+    if(newvals.charAt(newvals.length -1) === '|')
+    {
+        newvals = newvals.slice(0, -1);
+    }
+
+
+    localStorage.setItem('items', newvals);
   }
-
-  if(newvals.charAt(newvals.length -1) === '|')
-  {
-      newvals = newvals.slice(0, -1);
-  }
-
-
-  alert(newvals);
-  localStorage.setItem('items', newvals);
   clearUI();
   createUI();
 }
@@ -194,11 +198,24 @@ function showItems()
 
 	  $.each(spl, function()
 	  {
-		var ele = document.createElement("a");
-		ele.href='#';
-		ele.appendChild(document.createTextNode('Unhide'));
-		ele.onclick = unHideThread;
-          $('' + this + '').show().css('background-color', '#c0f2ff').append(ele);
-	  });
+        var ele = document.createElement("a");
+		    ele.href='#';
+		    ele.appendChild(document.createTextNode('Unhide'));
+		    ele.onclick = unHideThread;
+        $('' + this + '').show().css('background-color', '#c0f2ff').append(ele);
+    });
+  }
+}
+
+function hideThreads()
+{
+  var items = localStorage.getItem('items');
+  if (items !== null)
+  {
+    var spl = items.split('|');
+    $.each(spl, function ()
+    {
+      $('' +this+ '').hide();
+    });
   }
 }
