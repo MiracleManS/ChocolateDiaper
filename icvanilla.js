@@ -46,11 +46,17 @@ $(document).ready(function()
       var oldUsers = localStorage.getItem('users');
       if(oldUsers !== null && oldUsers != '')
       {
+        var hideUsersT = localStorage.getItem('hideUserThreads');
          var sp = oldUsers.split('|');
          $.each(sp, function()
          {
+              if(hideUsersT == '1')
+              {
+                hideUserThreads(this);
+              }
               $('a[title=' + this + ']').closest('.ItemComment').hide();
-          });
+         });
+
       }
 
       $('#showChocolateSettings').click(function()
@@ -59,7 +65,6 @@ $(document).ready(function()
       });
 
       hideThreads();
-
 
       //add styles
       addGlobalStyle('.tabs-menu { height: 30px; float: left; clear: both; }');
@@ -155,7 +160,27 @@ function createUI()
       clearItems.appendChild(document.createTextNode('Clear Data'));
       clearItems.onclick = clearData;
       general.appendChild(clearItems);
+      var general2 = document.createElement('p');
+
+      var cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.id = 'cbHideThreads';
+
+      var hideThreads = localStorage.getItem('hideUserThreads');
+      if(hideThreads == '1')
+      {
+          cb.checked = true;
+      }
+      else
+      {
+          cb.checked = false;
+      }
+
+      general2.appendChild(cb);
+      general2.appendChild(document.createTextNode('Hide threads and posts from a user'));
+
       tab_1.appendChild(general);
+      tab_1.appendChild(general2);
       panel.appendChild(tab_1);
 
       var threadHead = document.createElement('h5');
@@ -251,6 +276,18 @@ function createUI()
           $(tab).fadeIn();
       });
 
+      $('#cbHideThreads').change(function() {
+        var chk = $('#cbHideThreads').is(':checked');
+        if(chk)
+        {
+          localStorage.setItem('hideUserThreads', '1')
+        }
+        else
+        {
+          localStorage.setItem('hideUserThreads', '0');
+        }
+      });
+
 }
 
 
@@ -329,21 +366,21 @@ function removeUser()
 }
 
 function hideUser()
-  {
-    var user = $(this).closest('.AuthorWrap').find('.Author').find('.PhotoWrap').attr('title');
-    $(this).closest('.ItemComment').hide();
-    var oldvals = localStorage.getItem('users');
-    var newvals = "";
-    if(oldvals != null && oldvals != '') {
-       newvals = oldvals + "|" + user;
-    }
-    else {
-        newvals =  user;
-    }
-
-    localStorage.setItem('users', newvals);
-    location.reload();
+{
+  var user = $(this).closest('.AuthorWrap').find('.Author').find('.PhotoWrap').attr('title');
+  $(this).closest('.ItemComment').hide();
+  var oldvals = localStorage.getItem('users');
+  var newvals = "";
+  if(oldvals != null && oldvals != '') {
+     newvals = oldvals + "|" + user;
   }
+  else {
+      newvals =  user;
+  }
+
+  localStorage.setItem('users', newvals);
+  location.reload();
+}
 
 function hideThread()
   {
@@ -356,6 +393,12 @@ function hideThread()
     localStorage.setItem('items', newvals);
 
     return false;
+  }
+
+  function hideUserThreads(user)
+  {
+
+    $('.DataList.Discussions li > a[title="' + user + '"]').parent().hide()
   }
 
   function unHideThread()
