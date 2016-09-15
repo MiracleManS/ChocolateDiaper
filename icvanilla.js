@@ -2,7 +2,7 @@
 // @name        Icrontic Vanilla Hide Thread
 // @namespace   MiraclemanS.Vanilla
 // @description Hides a thread in Icrontic, yo
-// @include     http://icrontic.com/*
+// @include     /^https?:\/\/(icrontic\.com)\/.*
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js
 // @version     1.4
 // @downloadURL https://raw.githubusercontent.com/MiracleManS/ChocolateDiaper/master/icvanilla.js
